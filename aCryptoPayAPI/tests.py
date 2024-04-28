@@ -59,7 +59,7 @@ async def test_api_functions():
         allow_comments=True,
         allow_anonymous=True,
         currency_type="fiat",
-        fiat="BTC"
+        fiat="USD"
     ))
 
 asyncio.run(test_api_functions())
