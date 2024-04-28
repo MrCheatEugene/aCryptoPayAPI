@@ -9,7 +9,7 @@ def read(filename):
 
 with open('pyCryptoPayAPI/version.py', 'r', encoding='utf-8') as f:  # Credits: LonamiWebs
     version = re.search(r"^__version__\s*=\s*'(.*)'.*$",
-                        f.read(), flags=re.MULTILINE).group(1)
+                        f.read(), flags=re.MULTILINE).group(1) 
 
 setup(name='pyCryptoPayAPI',
       version=version,
