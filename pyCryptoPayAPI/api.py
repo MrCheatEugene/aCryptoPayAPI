@@ -95,11 +95,11 @@ class pyCryptoPayAPI:
         return (await self.__request(method)).get("result")
 
     async def create_invoice(
-            self, amount, fiat=None, asset= None,
+            self, amount, asset= None,
             description = None, hidden_message = None,
             paid_btn_name = None, paid_btn_url = None, payload = None,
             allow_comments = None, allow_anonymous = None,
-            expires_in = None, currency_type=None
+            expires_in = None, currency_type=None, fiat=None
     ):
         """
         createInvoice method
