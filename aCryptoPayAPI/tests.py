@@ -16,7 +16,7 @@ async def run_and_print(f):
         res = await f()
         print(res)
         return res
-    except pyCryptoPayException as pe:
+    except aCryptoPayException as pe:
         if pe.code in [-2]:
             print("API call failed. Code: {}, Message: {}".format(pe.code, pe.message))
         else:
@@ -26,7 +26,7 @@ async def run_and_print(f):
     return None
 
 async def test_api_functions():
-    client = pyCryptoPayAPI(api_token=test_api_token, print_errors=True)
+    client = aCryptoPayAPI(api_token=test_api_token, print_errors=True)
     await run_and_print(lambda: client.get_me())
     await run_and_print(lambda: client.get_balance())
     await run_and_print(lambda: client.get_exchange_rates())
