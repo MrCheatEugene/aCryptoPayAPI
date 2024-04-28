@@ -37,7 +37,7 @@ async def test_api_functions():
         offset=0,
         count=10
     ))
-    await run_and_print(lambda: client.create_invoice(1, "BTC")
+    await run_and_print(lambda: client.create_invoice(1, "BTC"))
     await run_and_print(lambda: client.create_invoice(
         1,
         "TON",
