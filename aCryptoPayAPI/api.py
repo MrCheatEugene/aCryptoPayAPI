@@ -144,9 +144,9 @@ class aCryptoPayAPI:
         if payload:
             params["payload"] = payload
         if allow_comments is not None:
-            params["allow_comments"] = allow_comments
+            params["allow_comments"] = str(allow_comments)
         if allow_anonymous is not None:
-            params["allow_anonymous"] = allow_anonymous
+            params["allow_anonymous"] = str(allow_anonymous)
         if expires_in:
             params["expires_in"] = expires_in
         print(params)
