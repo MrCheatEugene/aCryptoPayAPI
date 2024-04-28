@@ -4,7 +4,7 @@ MAIN_API_URL = "https://pay.crypt.bot/api/"
 TEST_API_URL = "https://testnet-pay.crypt.bot/api/"
 
 # noinspection PyPep8Naming
-class pyCryptoPayException(Exception):
+class aCryptoPayException(Exception):
     def __init__(self, code, message, full_error = ""):
         self.code = code
         self.message = message
@@ -13,7 +13,7 @@ class pyCryptoPayException(Exception):
 
 
 # noinspection PyPep8Naming
-class pyCryptoPayAPI:
+class aCryptoPayAPI:
     """
     Crypto Pay API Client
     """
@@ -52,27 +52,27 @@ class pyCryptoPayAPI:
             message = "Response decode failed: {}".format(ve)
             if self.print_errors:
                 print(message)
-            raise pyCryptoPayException(-2, message)
+            raise aCryptoPayException(-2, message)
         except Exception as e:
             message = "Request unknown exception: {}".format(e)
             if self.print_errors:
                 print(message)
-            raise pyCryptoPayException(-3, message)
+            raise aCryptoPayException(-3, message)
         if not resp:
             message = "None request response"
             if self.print_errors:
                 print(message)
-            raise pyCryptoPayException(-4, message)
+            raise aCryptoPayException(-4, message)
         elif not resp.get("ok"):
             if self.print_errors:
                 print("Response: {}".format(resp))
             if resp.get("error"):
-                raise pyCryptoPayException(
+                raise aCryptoPayException(
                     resp["error"].get("code", 1),
                     resp["error"].get("name", "No info"),
                     full_error = str(resp["error"]))
             else:
-                raise pyCryptoPayException(1, "No error info provided")
+                raise aCryptoPayException(1, "No error info provided")
         else:
             return resp
 
