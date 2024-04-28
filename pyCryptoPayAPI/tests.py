@@ -1,4 +1,5 @@
 import inspect, datetime
+import asyncio
 from time import sleep
 try:
     from pyCryptoPayAPI import pyCryptoPayAPI, pyCryptoPayException
@@ -7,12 +8,12 @@ except:
 
 test_api_token = "52586:AA2DKQyUAnZFELNOihEqjlfact0XsxoUmGy"
 
-def run_and_print(f):
+async def run_and_print(f):
     try:
         sleep(1)
         print()
         print(inspect.getsourcelines(f)[0][0].strip())
-        res = f()
+        res = await f()
         print(res)
         return res
     except pyCryptoPayException as pe:
@@ -24,19 +25,19 @@ def run_and_print(f):
         raise e
     return None
 
-def test_api_functions():
+async def test_api_functions():
     client = pyCryptoPayAPI(api_token=test_api_token, print_errors=True)
-    run_and_print(lambda: client.get_me())
-    run_and_print(lambda: client.get_balance())
-    run_and_print(lambda: client.get_exchange_rates())
-    run_and_print(lambda: client.get_currencies())
-    run_and_print(lambda: client.get_invoices(
+    await run_and_print(lambda: client.get_me())
+    await run_and_print(lambda: client.get_balance())
+    await run_and_print(lambda: client.get_exchange_rates())
+    await run_and_print(lambda: client.get_currencies())
+    await run_and_print(lambda: client.get_invoices(
         "TON",
         status="active",
         offset=0,
         count=10
     ))
-    run_and_print(lambda: client.create_invoice(
+    await run_and_print(lambda: client.create_invoice(
         "TON",
         1,
         description="Test at {}".format(datetime.datetime.now()),
@@ -49,4 +50,4 @@ def test_api_functions():
         expires_in=None
     ))
 
-test_api_functions()
+asyncio.run(test_api_functions())
