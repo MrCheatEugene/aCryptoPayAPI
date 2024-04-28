@@ -1,4 +1,4 @@
-import requests
+import aiohttp
 
 MAIN_API_URL = "https://pay.crypt.bot/api/"
 TEST_API_URL = "https://testnet-pay.crypt.bot/api/"
@@ -32,7 +32,7 @@ class pyCryptoPayAPI:
         self.print_errors = print_errors
         self.timeout = timeout
 
-    def __request(self, method, **kwargs):
+    async def __request(self, method, **kwargs):
         if kwargs:
             data = dict(kwargs)
         else:
@@ -42,12 +42,12 @@ class pyCryptoPayAPI:
             "Crypto-Pay-API-Token": self.api_token
         }
         try:
-            resp = requests.get(
-                (TEST_API_URL if self.test_net else MAIN_API_URL) + method,
-                params=data,
-                headers = headers,
-                timeout=self.timeout
-            ).json()
+            async with aiohttp.ClientSession() as session:
+                async with session.get((TEST_API_URL if self.test_net else MAIN_API_URL) + method,
+                        params=data,
+                        headers = headers,
+                        timeout=self.timeout) as rsp:
+                    resp = await rsp.json()
         except ValueError as ve:
             message = "Response decode failed: {}".format(ve)
             if self.print_errors:
@@ -84,7 +84,7 @@ class pyCryptoPayAPI:
         """
         return ["USDT", "TON", "BTC", "ETH", "BNB", "TRX", "BUSD", "USDC"]
 
-    def get_me(self):
+    async def get_me(self):
         """
         getMe method
         Use this method to test your app's authentication token.
@@ -92,14 +92,14 @@ class pyCryptoPayAPI:
         :return: On success, returns basic information about an app.
         """
         method = "getMe"
-        return self.__request(method).get("result")
+        return (await self.__request(method)).get("result")
 
-    def create_invoice(
-            self, asset, amount,
+    async def create_invoice(
+            self, amount, fiat=None, asset= None,
             description = None, hidden_message = None,
             paid_btn_name = None, paid_btn_url = None, payload = None,
             allow_comments = None, allow_anonymous = None,
-            expires_in = None
+            expires_in = None, currency_type=None
     ):
         """
         createInvoice method
@@ -118,16 +118,23 @@ class pyCryptoPayAPI:
         :param payload: (String) Optional. Any data you want to attach to the invoice (for example, user ID, payment ID, ect). Up to 4kb.
         :param allow_comments: (Boolean) Optional. Allow a user to add a comment to the payment. Default is true.
         :param allow_anonymous: (Boolean) Optional. Allow a user to pay the invoice anonymously. Default is true.
+        :param currency_type: (String) Optional. Type of the price, can be “crypto” or “fiat”. Defaults to crypto.
+        :param fiat: (String) Optional. Required if currency_type is “fiat”. Fiat currency code. Supported fiat currencies: “USD”, “EUR”, “RUB”, “BYN”, “UAH”, “GBP”, “CNY”, “KZT”, “UZS”, “GEL”, “TRY”, “AMD”, “THB”, “INR”, “BRL”, “IDR”, “AZN”, “AED”, “PLN” and “ILS".
         :param expires_in: (Number) Optional. You can set a payment time limit for the invoice in seconds. Values between 1-2678400 are accepted.
         :return: On success, returns an object of the created invoice (https://help.crypt.bot/crypto-pay-api#Invoice).
         """
         method = "createInvoice"
         params = {
-            "asset": asset,
             "amount": amount,
         }
+        if currency_type:
+            params["currency_type"] = currency_type
         if description:
             params["description"] = description
+        if fiat:
+            params["fiat"] = fiat
+        if asset:
+            params["asset"] = asset
         if hidden_message:
             params["hidden_message"] = hidden_message
         if paid_btn_name:
@@ -142,9 +149,9 @@ class pyCryptoPayAPI:
             params["allow_anonymous"] = allow_anonymous
         if expires_in:
             params["expires_in"] = expires_in
-        return self.__request(method, **params).get("result")
+        return (await self.__request(method, **params)).get("result")
 
-    def transfer(
+    async def transfer(
             self, user_id , asset, amount, spend_id,
             comment = None, disable_send_notification  = None
     ):
@@ -171,9 +178,9 @@ class pyCryptoPayAPI:
             params["comment"] = comment
         if disable_send_notification is not None:
             params["disable_send_notification"] = disable_send_notification
-        return self.__request(method, **params).get("result")
+        return (await self.__request(method, **params)).get("result")
 
-    def get_invoices(
+    async def get_invoices(
             self, asset = None, invoice_ids = None, status = None, offset = None, count  = None
     ):
         """
@@ -199,9 +206,9 @@ class pyCryptoPayAPI:
             params["offset"] = offset
         if count:
             params["count"] = count
-        return self.__request(method, **params).get("result")
+        return (await self.__request(method, **params)).get("result")
 
-    def get_balance(self):
+    async def get_balance(self):
         """
         getBalance method
         Use this method to get a balance of your app.
@@ -209,9 +216,9 @@ class pyCryptoPayAPI:
         :return: Returns array of assets.
         """
         method = "getBalance"
-        return self.__request(method).get("result")
+        return (await self.__request(method)).get("result")
 
-    def get_exchange_rates(self):
+    async def get_exchange_rates(self):
         """
         getExchangeRates method
         Use this method to get exchange rates of supported currencies.
@@ -219,9 +226,9 @@ class pyCryptoPayAPI:
         :return: Returns array of currencies.
         """
         method = "getExchangeRates"
-        return self.__request(method).get("result")
+        return (await self.__request(method)).get("result")
 
-    def get_currencies(self):
+    async def get_currencies(self):
         """
         getCurrencies method
         Use this method to get a list of supported currencies.
@@ -229,4 +236,4 @@ class pyCryptoPayAPI:
         :return: Returns array of currencies.
         """
         method = "getCurrencies"
-        return self.__request(method).get("result")
+        return (await self.__request(method)).get("result")
