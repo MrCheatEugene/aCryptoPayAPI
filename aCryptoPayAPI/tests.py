@@ -45,9 +45,7 @@ async def test_api_functions():
         hidden_message="Hidden in test",
         paid_btn_name="viewItem",
         paid_btn_url="https://help.crypt.bot/crypto-pay-api",
-        payload="Payload in test",
-        allow_comments=True,
-        allow_anonymous=True
+        payload="Payload in test"
     ))
     await run_and_print(lambda: client.create_invoice(
         1,
