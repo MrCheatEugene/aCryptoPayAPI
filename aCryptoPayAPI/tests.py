@@ -57,7 +57,7 @@ async def test_api_functions():
         paid_btn_url="https://help.crypt.bot/crypto-pay-api",
         payload="Payload in test",
         allow_comments=True,
-        allow_anonymous=True
+        allow_anonymous=True,
         currency_type="fiat",
         fiat="BTC"
     ))
