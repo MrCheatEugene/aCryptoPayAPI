@@ -37,6 +37,7 @@ async def test_api_functions():
         offset=0,
         count=10
     ))
+    await run_and_print(lambda: client.create_invoice(1, "BTC")
     await run_and_print(lambda: client.create_invoice(
         1,
         "TON",
@@ -46,8 +47,7 @@ async def test_api_functions():
         paid_btn_url="https://help.crypt.bot/crypto-pay-api",
         payload="Payload in test",
         allow_comments=True,
-        allow_anonymous=True,
-        expires_in=None
+        allow_anonymous=True
     ))
     await run_and_print(lambda: client.create_invoice(
         1,
@@ -57,8 +57,7 @@ async def test_api_functions():
         paid_btn_url="https://help.crypt.bot/crypto-pay-api",
         payload="Payload in test",
         allow_comments=True,
-        allow_anonymous=True,
-        expires_in=None,
+        allow_anonymous=True
         currency_type="fiat",
         fiat="BTC"
     ))
