@@ -38,8 +38,8 @@ async def test_api_functions():
         count=10
     ))
     await run_and_print(lambda: client.create_invoice(
-        "TON",
         1,
+        "TON",
         description="Test at {}".format(datetime.datetime.now()),
         hidden_message="Hidden in test",
         paid_btn_name="viewItem",
@@ -48,6 +48,19 @@ async def test_api_functions():
         allow_comments=True,
         allow_anonymous=True,
         expires_in=None
+    ))
+    await run_and_print(lambda: client.create_invoice(
+        1,
+        description="Test at {}".format(datetime.datetime.now()),
+        hidden_message="Hidden in test",
+        paid_btn_name="viewItem",
+        paid_btn_url="https://help.crypt.bot/crypto-pay-api",
+        payload="Payload in test",
+        allow_comments=True,
+        allow_anonymous=True,
+        expires_in=None,
+        currency_type="fiat",
+        fiat="BTC"
     ))
 
 asyncio.run(test_api_functions())
