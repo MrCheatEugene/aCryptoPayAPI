@@ -149,6 +149,7 @@ class aCryptoPayAPI:
             params["allow_anonymous"] = allow_anonymous
         if expires_in:
             params["expires_in"] = expires_in
+        print(params)
         return (await self.__request(method, **params)).get("result")
 
     async def transfer(
