@@ -7,19 +7,19 @@ def read(filename):
     with open(filename, encoding='utf-8') as file:
         return file.read()
 
-with open('pyCryptoPayAPI/version.py', 'r', encoding='utf-8') as f:  # Credits: LonamiWebs
+with open('aCryptoPayAPI/version.py', 'r', encoding='utf-8') as f:  # Credits: LonamiWebs
     version = re.search(r"^__version__\s*=\s*'(.*)'.*$",
                         f.read(), flags=re.MULTILINE).group(1) 
 
-setup(name='pyCryptoPayAPI',
+setup(name='aCryptoPayAPI',
       version=version,
-      description='Simple Python implementation of Crypto Pay API (Crypto Pay is a payment system based on @CryptoBot)',
+      description='Simple Python implementation of Crypto Pay API (Crypto Pay is a payment system based on @CryptoBot), but async and with a little more features.',
       long_description=read('README.md'),
       long_description_content_type="text/markdown",
       author='Badiboy',
-      url='https://github.com/Badiboy/pyCryptoPayAPI',
-      packages=['pyCryptoPayAPI'],
-      requires=['requests'],
+      url='https://github.com/MrCheatEugene/aCryptoPayAPI',
+      packages=['aCryptoPayAPI'],
+      requires=['aiohttp'],
       license='MIT license',
       keywords="Crypto Pay API @CryptoBot",
       classifiers=[
