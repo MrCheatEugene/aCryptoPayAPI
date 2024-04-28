@@ -2,9 +2,9 @@ import inspect, datetime
 import asyncio
 from time import sleep
 try:
-    from pyCryptoPayAPI import pyCryptoPayAPI, pyCryptoPayException
+    from aCryptoPayAPI import aCryptoPayAPI, aCryptoPayException
 except:
-    from api import pyCryptoPayAPI, pyCryptoPayException 
+    from api import aCryptoPayAPI, aCryptoPayException 
 
 test_api_token = "52586:AA2DKQyUAnZFELNOihEqjlfact0XsxoUmGy"
 
