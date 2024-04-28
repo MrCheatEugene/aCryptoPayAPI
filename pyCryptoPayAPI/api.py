@@ -105,7 +105,7 @@ class pyCryptoPayAPI:
         createInvoice method
         Use this method to create a new invoice.
 
-        :param asset: (String) Currency code. Supported assets: “USDT”, “TON”, “BTC”, “ETH”, “BNB”, “TRX”, “BUSD” and “USDC”.
+        :param asset: (String) Optional. Can be replaced with "fiat". Currency code. Supported assets: “USDT”, “TON”, “BTC”, “ETH”, “BNB”, “TRX”, “BUSD” and “USDC”.
         :param amount: (String) Amount of the invoice in float. For example: 125.50
         :param description: (String) Optional. Description for the invoice. User will see this description when they pay the invoice. Up to 1024 characters.
         :param hidden_message: (String) Optional. Text of the message that will be shown to a user after the invoice is paid. Up to 2o48 characters.
